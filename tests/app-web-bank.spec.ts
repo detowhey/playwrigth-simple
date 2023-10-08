@@ -1,5 +1,8 @@
-import { test } from '@playwright/test';
 import { fakerPT_BR as faker } from '@faker-js/faker';
+import { test } from '@playwright/test';
+import { allure } from "allure-playwright";
+import {Severity} from "allure-js-commons"
+
 
 test.describe('Simple page tests clicks', () => {
 
@@ -9,6 +12,12 @@ test.describe('Simple page tests clicks', () => {
 
     test('Click all buttons in the the aplication', async ({ page }) => {
         const fakerData = faker;
+
+        await allure.description("Description");
+        await allure.severity(Severity.CRITICAL);
+        await allure.epic("List orders");
+        await allure.feature("Screen list orders");
+        await allure.story("Screen test");
 
         await page.getByRole('button', { name: 'Customer Login' }).click();
         await page.getByRole('button', { name: 'Home' }).click();
