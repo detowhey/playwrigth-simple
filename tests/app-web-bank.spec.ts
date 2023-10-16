@@ -1,23 +1,16 @@
 import { fakerPT_BR as faker } from '@faker-js/faker';
-import { test } from '@playwright/test';
-import { allure } from "allure-playwright";
-import {Severity} from "allure-js-commons"
+import { expect, test } from '@playwright/test';
+import { qase } from 'playwright-qase-reporter/dist/playwright';
 
 
-test.describe('Simple page tests clicks', () => {
+test.describe('Listagem de operações', () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('');
     });
 
-    test('Click all buttons in the the aplication', async ({ page }) => {
+    test('Click all buttons in the aplication', async ({ page }) => {
         const fakerData = faker;
-
-        await allure.description("Description");
-        await allure.severity(Severity.CRITICAL);
-        await allure.epic("List orders");
-        await allure.feature("Screen list orders");
-        await allure.story("Screen test");
 
         await page.getByRole('button', { name: 'Customer Login' }).click();
         await page.getByRole('button', { name: 'Home' }).click();
@@ -32,4 +25,9 @@ test.describe('Simple page tests clicks', () => {
         await page.getByPlaceholder('Post Code').fill(fakerData.location.zipCode());
         await page.getByRole('form').getByRole('button', { name: 'Add Customer' }).click();
     });
+
+    test('Failed test', async () => {
+        expect(true).toBe(false);
+    });
+
 });

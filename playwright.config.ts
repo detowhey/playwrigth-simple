@@ -1,6 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { testPlanFilter } from "allure-playwright/dist/testplan";
-
+import dotenv from "dotenv/config";
 
 /**
  * Read environment variables from file.
@@ -11,7 +10,12 @@ import { testPlanFilter } from "allure-playwright/dist/testplan";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
+
 export default defineConfig({
+
+
+
   testDir: '.',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -22,13 +26,15 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  /* reporter: 'html', */
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: 'https://www.way2automation.com/angularjs-protractor/banking/#/login',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure'
   },
 
   /* Configure projects for major browsers */
@@ -41,22 +47,17 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    },
   ],
-  grep: testPlanFilter(),
-  reporter: [["line"], ["allure-playwright"],],
-
+  reporter: [["line"], ["html"], ['playwright-qase-reporter',
+    {
+      apiToken: process.env.API_TOKEN?.toString(),
+      projectCode: process.env.PROJECT_CODE?.toString(),
+      runComplete: true,
+      basePath: `https://api.qase.io/${process.env.PROJECT_CODE?.toString()}`,
+      logging: true,
+      uploadAttachments: true,
+    }]
+  ],
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',

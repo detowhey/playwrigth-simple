@@ -10,8 +10,10 @@
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "@playwright/test": "^1.38.0",
-    "@types/node": "^20.6.1",
-    "allure-commandline": "^2.24.1",
-    "allure-playwright": "^2.9.2"
+    "@types/node": "^20.6.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "playwright-qase-reporter": "^1.2.1"
   }
 }
