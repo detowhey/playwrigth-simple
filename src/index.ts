@@ -89,7 +89,6 @@ class PlaywrightReporter implements Reporter {
         if (!PlaywrightReporter.getEnv(Envs.report)) {
             this.log(
                 chalk`{yellow QASE_REPORT env variable is not set. Reporting to qase.io is disabled.}`,
-                chalk`{yello DEBUG}`
             );
             this.isDisabled = true;
             return;
@@ -283,7 +282,6 @@ class PlaywrightReporter implements Reporter {
 
             this.log(chalk`{blue https://app.qase.io/run/${this.options.projectCode}/dashboard/${this.runId}}`);
         } catch (error) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion
             const err: any = error as any;
             this.log(chalk`{red Unable to send results into Qase. ${err}}`);
 
@@ -395,7 +393,6 @@ class PlaywrightReporter implements Reporter {
                     options
                 );
 
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 return (response.data.result?.[0].hash as string);
             })
         );
@@ -413,7 +410,6 @@ class PlaywrightReporter implements Reporter {
         this.logTestItem(test, testResult);
         const caseIds = this.getCaseIds(test);
         const caseObject: ResultCreate = {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             status: Statuses[testResult.status] || Statuses.failed,
             time_ms: testResult.duration,
             stacktrace: testResult.error?.stack?.replace(/\u001b\[.*?m/g, ''),

@@ -1,21 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-
-
 export default defineConfig({
  
   use: {
     baseURL: 'https://www.way2automation.com/angularjs-protractor/banking/#/login',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure'
