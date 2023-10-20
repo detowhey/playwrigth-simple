@@ -1,7 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
- 
+
   use: {
     baseURL: 'https://www.way2automation.com/angularjs-protractor/banking/#/login',
     trace: 'on-first-retry',
@@ -27,7 +30,7 @@ export default defineConfig({
         apiToken: process.env.API_TOKEN?.toString(),
         projectCode: process.env.PROJECT_CODE?.toString(),
         basePath: process.env.QASE_BASE_PATH?.toString(),
-        rootSuiteTitle:process.env.ROOT_SUITE_TITLE?.toString(),
+        rootSuiteTitle: process.env.ROOT_SUITE_TITLE?.toString(),
         uploadAttachments: true,
         runComplete: true,
         logging: true
