@@ -5,26 +5,14 @@ import {
 } from 'qaseio/dist/src';
 
 import { Reporter, TestCase, TestResult } from '@playwright/test/reporter';
-import { createReadStream, readFileSync } from 'fs';
-import FormData from 'form-data';
-import { QaseApi } from 'qaseio';
 import chalk from 'chalk';
-import crypto from 'crypto';
 import { execSync } from 'child_process';
-
-enum Envs {
-    report = 'QASE_REPORT',
-    apiToken = 'QASE_API_TOKEN',
-    basePath = 'QASE_API_BASE_URL',
-    rootSuiteTitle = 'QASE_ROOT_SUITE_TITLE',
-    projectCode = 'QASE_PROJECT_CODE',
-    runId = 'QASE_RUN_ID',
-    runName = 'QASE_RUN_NAME',
-    runDescription = 'QASE_RUN_DESCRIPTION',
-    runComplete = 'QASE_RUN_COMPLETE',
-    environmentId = 'QASE_ENVIRONMENT_ID',
-    uploadAttachments = 'QASE_UPLOAD_ATTACHMENTS',
-}
+import crypto from 'crypto';
+import { createReadStream, readFileSync } from 'fs';
+import { QaseApi } from 'qaseio';
+import { CustomBoundaryFormData } from "../src/custom-boundary-formdata";
+import { Envs } from '../src/enum/envs.enum';
+import { QaseOptions } from "../src/interface/qase-options.interface";
 
 const Statuses = {
     passed: ResultCreateStatusEnum.PASSED,
@@ -34,33 +22,10 @@ const Statuses = {
     disabled: ResultCreateStatusEnum.BLOCKED,
 };
 
-interface QaseOptions {
-    apiToken: string;
-    basePath?: string;
-    rootSuiteTitle?: string;
-    projectCode: string;
-    runId?: string;
-    runPrefix?: string;
-    logging?: boolean;
-    runComplete?: boolean;
-    environmentId?: number;
-    uploadAttachments?: boolean;
-}
-
 let customBoundary = '----------------------------';
 crypto.randomBytes(24).forEach((value) => {
     customBoundary += Math.floor(value * 10).toString(16);
 });
-
-class CustomBoundaryFormData extends FormData {
-    public constructor() {
-        super();
-    }
-
-    public getBoundary(): string {
-        return customBoundary;
-    }
-}
 
 class PlaywrightReporter implements Reporter {
     private api: QaseApi;
@@ -336,7 +301,6 @@ class PlaywrightReporter implements Reporter {
         cb: (created: IdResponse | undefined) => void
     ): Promise<void> {
         try {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const environmentId = Number.parseInt(PlaywrightReporter.getEnv(Envs.environmentId)!, 10) || this.options.environmentId;
 
             const runObject = PlaywrightReporter.createRunObject(

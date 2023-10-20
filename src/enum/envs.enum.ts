@@ -1,4 +1,4 @@
-enum Envs {
+export enum Envs {
     report = 'QASE_REPORT',
     apiToken = 'QASE_API_TOKEN',
     basePath = 'QASE_API_BASE_URL',
